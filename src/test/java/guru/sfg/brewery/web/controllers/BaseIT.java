@@ -21,20 +21,20 @@ public abstract class BaseIT {
   @Autowired
   WebApplicationContext wac;
 
-  @MockBean
-  BeerRepository beerRepository;
-
-  @MockBean
-  BeerInventoryRepository beerInventoryRepository;
-
-  @MockBean
-  BreweryService breweryService;
-
-  @MockBean
-  CustomerRepository customerRepository;
-
-  @MockBean
-  BeerService beerService;
+//  @MockBean
+//  BeerRepository beerRepository;
+//
+//  @MockBean
+//  BeerInventoryRepository beerInventoryRepository;
+//
+//  @MockBean
+//  BreweryService breweryService;
+//
+//  @MockBean
+//  CustomerRepository customerRepository;
+//
+//  @MockBean
+//  BeerService beerService;
 
   MockMvc mockMvc;
 

@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,6 +18,7 @@ import guru.sfg.brewery.security.RestUrlParameterAuthFilter;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   public RestHeaderAuthFilter restHeaderAuthFilter(AuthenticationManager authenticationManager) {
@@ -47,12 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           authorize
               .antMatchers("/h2-console/**").permitAll()
               .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll()
-              .antMatchers("/beers/find", "/beers*").permitAll()
+              .antMatchers("/beers/find", "/beers*").hasAnyRole("CUSTOMER","USER","ADMIN")
               .antMatchers("/brewery/breweries/**").hasAnyRole("CUSTOMER","ADMIN")
-              .antMatchers(HttpMethod.GET, "/api/v1/beer/**").permitAll()
-              .mvcMatchers(HttpMethod.DELETE,"/api/v1/beer/**").hasRole("ADMIN")
+              .antMatchers(HttpMethod.GET, "/api/v1/beer/**").hasAnyRole("CUSTOMER","ADMIN","USER")
+              //.mvcMatchers(HttpMethod.DELETE,"/api/v1/beer/**").hasRole("ADMIN")
               .mvcMatchers(HttpMethod.GET,"/brewery/api/v1/breweries/**").hasAnyRole("CUSTOMER","ADMIN")
-              .mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").permitAll();
+              .mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").hasAnyRole("CUSTOMER","USER","ADMIN");
         })
         .authorizeRequests()
         .anyRequest()

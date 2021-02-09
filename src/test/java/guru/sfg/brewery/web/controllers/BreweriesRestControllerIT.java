@@ -13,7 +13,7 @@ public class BreweriesRestControllerIT extends BaseIT{
   @Test
   void getBrewriesWithCustomerRole() throws Exception {
     mockMvc.perform(get("/brewery/api/v1/breweries")
-        .with(httpBasic("scott","password")))
+        .with(httpBasic("scott","tiger")))
         .andExpect(status().isOk());
   }
   @Test
@@ -25,7 +25,7 @@ public class BreweriesRestControllerIT extends BaseIT{
   @Test
   void getBrewriesWithUserAdmin() throws Exception {
     mockMvc.perform(get("/brewery/api/v1/breweries")
-        .with(httpBasic("spring","learning")))
+        .with(httpBasic("spring","guru")))
         .andExpect(status().is2xxSuccessful());
   }
   @Test

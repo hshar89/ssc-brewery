@@ -47,20 +47,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http
         .authorizeRequests(authorize -> {
           authorize
-              .antMatchers("/h2-console/**").permitAll()
-              .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll()
-              .antMatchers("/beers/find", "/beers*").hasAnyRole("CUSTOMER","USER","ADMIN")
-              .antMatchers("/brewery/breweries/**").hasAnyRole("CUSTOMER","ADMIN")
-              .antMatchers(HttpMethod.GET, "/api/v1/beer/**").hasAnyRole("CUSTOMER","ADMIN","USER")
-              //.mvcMatchers(HttpMethod.DELETE,"/api/v1/beer/**").hasRole("ADMIN")
-              .mvcMatchers(HttpMethod.GET,"/brewery/api/v1/breweries/**").hasAnyRole("CUSTOMER","ADMIN")
-              .mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").hasAnyRole("CUSTOMER","USER","ADMIN");
-        })
+              .antMatchers("/h2-console/**").permitAll() //do not use in production!
+              .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll();
+        } )
         .authorizeRequests()
-        .anyRequest()
-        .authenticated().and()
+        .anyRequest().authenticated()
+        .and()
         .formLogin().and()
-        .httpBasic();
+        .httpBasic()
+        .and().csrf().disable();
+
     //h2 console config
     http.headers().frameOptions().sameOrigin();
   }
@@ -86,8 +82,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //  @Override
 //  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-      //The below needs to be done incase you are using a custome configuration for userdetailsservice
-    //auth.userDetailsService(this.jpaUserDetailsService).passwordEncoder(passwordEncoder());
+  //The below needs to be done incase you are using a custome configuration for userdetailsservice
+  //auth.userDetailsService(this.jpaUserDetailsService).passwordEncoder(passwordEncoder());
 //    auth.inMemoryAuthentication()
 //        .withUser("spring")
 //        .password("{bcrypt}$2a$10$9Pzp/gqchmsAU9vLD9d0a.jWmU6YDOyz6O5JUTjdnpDsXqHHLlctq")

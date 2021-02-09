@@ -43,7 +43,7 @@ public class BeerRestControllerIT extends BaseIT {
     @Test
     void deleteBeerHttpBasic() throws Exception{
       mockMvc.perform(delete("/api/v1/beer/" + beerToDelete().getId())
-          .with(httpBasic("spring", "learning")))
+          .with(httpBasic("spring", "guru")))
           .andExpect(status().is2xxSuccessful());
     }
 
